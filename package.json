@@ -1,6 +1,6 @@
 {
   "name": "next-turbopack-nodenext",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Adds module: NodeNext support to Turbopack in Next.js",
   "type": "module",
   "sideEffects": false,
