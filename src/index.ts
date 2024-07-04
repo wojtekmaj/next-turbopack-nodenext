@@ -7,7 +7,7 @@ import type { NextConfig } from 'next';
 
 export default function withNodeNext(config: NextConfig): NextConfig {
   const resolveAlias = fg
-    .globSync('src/**/*.{ts,tsx}')
+    .globSync(['app/**/*.{ts,tsx}', 'pages/**/*.{ts,tsx}', 'src/**/*.{ts,tsx}'])
     .reduce<Record<string, string>>((acc, file) => {
       // For each file, read contents and look for import statements ending with "".js"
       const contents = fs.readFileSync(file, 'utf8');
