@@ -6,6 +6,13 @@ import fg from 'fast-glob';
 import type { NextConfig } from 'next';
 
 export default function withNodeNext(config: NextConfig): NextConfig {
+  const extensionAlias = config.experimental?.extensionAlias?.['.js'] || [
+    '.ts',
+    '.tsx',
+    '.js',
+    '.jsx',
+  ];
+
   const resolveAlias = fg
     .globSync(['app/**/*.{ts,tsx}', 'pages/**/*.{ts,tsx}', 'src/**/*.{ts,tsx}'])
     .reduce<Record<string, string>>((acc, file) => {
@@ -31,8 +38,8 @@ export default function withNodeNext(config: NextConfig): NextConfig {
           continue;
         }
 
-        for (const ext of ['tsx', 'ts']) {
-          const extPath = matchedPath.replace(/\.js$/, `.${ext}`);
+        for (const extensionAliasItem of extensionAlias) {
+          const extPath = matchedPath.replace(/\.js$/, extensionAliasItem);
           const extPathRelativeToFile = path.resolve(path.dirname(file), extPath);
           const extExists = fs.existsSync(extPathRelativeToFile);
           if (extExists) {
