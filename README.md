@@ -37,6 +37,8 @@ You can use [`experimental.extensionAlias`](https://webpack.js.org/configuration
 
 However, [this option is not available in Turbopack yet](https://github.com/vercel/turbo/issues/4807). `next-turbopack-nodenext` patches this missing feature in Turbopack by resolving `.js` imports for it and passing the resolved paths to the bundler using another option, `experimental.turbo.resolveAlias`.
 
+If you previously provided `experimental.extensionAlias` in your Next.js config, `next-turbopack-nodenext` will respect it and use it to resolve `.js` imports. If not, it will provide its own default configuration (resolving imports to `.ts`, `.tsx`, `.js`, and `.jsx` files, in that order).
+
 ## License
 
 The MIT License.
