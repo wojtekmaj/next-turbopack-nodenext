@@ -10,6 +10,33 @@ Adds module: NodeNext support to Turbopack in Next.js.
 - Import by adding `import withNodeNext from 'next-turbopack-nodenext'`.
 - Use it by wrapping your config `export default withNodeNext(nextConfig)`.
 
+## What's this all about?
+
+Suppose you have two TypeScript files:
+
+```ts
+// index.ts
+import { foo } from './foo.js';
+```
+
+```ts
+// foo.ts
+export const foo = 'foo';
+```
+
+Note how despite the fact that `foo.ts` is a TypeScript file, it is imported, somewhat counterintuitively, as a JavaScript file. That's because after it is compiled, it _will be_ a JavaScript file.
+
+This way of importing files is the only way to ensure your code is interoperable with both Node.js and the browser. It also works with Vite, esbuild, and many other tools. However, it does not work out-of-the-box with Next.js:
+
+```
+ ⨯ ./app/(dashboard)/layout.tsx:6:1
+Module not found: Can't resolve './Header.js'
+```
+
+You can use [`experimental.extensionAlias`](https://webpack.js.org/configuration/resolve/#resolveextensionalias) option to tell the bundler to also look for `.ts` and `.tsx` files when importing `.js` files.
+
+However, [this option is not available in Turbopack yet](https://github.com/vercel/turbo/issues/4807). `next-turbopack-nodenext` patches this missing feature in Turbopack by resolving `.js` imports for it and passing the resolved paths to the bundler using another option, `experimental.turbo.resolveAlias`.
+
 ## License
 
 The MIT License.
